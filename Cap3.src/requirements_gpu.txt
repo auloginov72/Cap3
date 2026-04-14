@@ -1,32 +1,41 @@
 # DP Fault AI — GPU machine requirements
 # torch is NOT listed here — installed separately in Setup_gpu.bat
-# with CUDA index URL for GTX 1080 Ti (CUDA 11.8)
+# with CUDA 11.8 index URL for GTX 1080 Ti
 #
-# accelerate==1.13.0
-accelerate==1.13.0
-datasets==4.8.4
-dill==0.4.1
-filelock==3.25.0
-frozenlist==1.8.0
-fsspec==2026.2.0
-huggingface_hub==0.36.2
-matplotlib==3.10.7
-multiprocess==0.70.19
-numpy==2.3.5
-packaging==25.0
-pandas==2.3.3
-peft==0.13.2
-Pillow==12.0.0
-psutil==7.2.2
-pyarrow==23.0.1
-PyYAML==6.0.3
-regex==2026.3.32
-requests==2.33.0
-safetensors==0.7.0
-scipy==1.16.3
-tokenizers==0.22.2
-tqdm==4.67.3
+# Versions are intentionally NOT pinned for numpy, frozenlist, matplotlib
+# and other packages with compiled wheels — pip will pick the correct
+# build for your Python version automatically.
+#
+# Core ML stack versions ARE pinned — these must match exactly.
+
+# ── core ML stack — pinned ──────────────────
 transformers==4.57.6
 trl==0.15.2
-typing_extensions==4.15.0
-xxhash==3.6.0
+peft==0.13.2
+accelerate==1.13.0
+
+# ── data / tokenization — pinned ────────────
+datasets==4.8.4
+tokenizers==0.22.2
+safetensors==0.7.0
+huggingface_hub==0.36.2
+
+# ── scientific — unpinned, any recent version works ─
+numpy
+scipy
+matplotlib
+pandas
+pyarrow
+
+# ── utilities — unpinned ────────────────────
+requests
+tqdm
+packaging
+PyYAML
+regex
+psutil
+xxhash
+multiprocess
+dill
+filelock
+fsspec
