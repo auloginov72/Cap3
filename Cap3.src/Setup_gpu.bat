@@ -3,41 +3,45 @@ echo ================================================================
 echo  DP Fault AI — GPU Environment Setup (GTX 1080 Ti / CUDA 11.8)
 echo ================================================================
 
-REM ── Step 1: detect Python version ───────────────────────────────
-echo Detecting Python version...
-py -3 --version
-py -3 -c "import sys; v=sys.version_info; print(f'Python {v.major}.{v.minor}.{v.micro}')"
+REM ── Шаг 1: Явное указание пути к Python 3.13 ─────────────────────
+set "PYTHON_EXE=C:\Python\Python313\python.exe"
 
-REM ── Step 2: create venv if not exists ───────────────────────────
+echo Detecting Python version...
+if not exist "%PYTHON_EXE%" (
+    echo [ERROR] Python 3.13 not found at %PYTHON_EXE%
+    pause
+    exit /b
+)
+
+"%PYTHON_EXE%" --version
+
+REM ── Шаг 2: Создание venv (используем конкретный путь) ─────────────
 if not exist venv (
-    echo Creating virtual environment...
-    py -3 -m venv venv
+    echo Creating virtual environment using Python 3.13...
+    "%PYTHON_EXE%" -m venv venv
 ) else (
     echo Virtual environment already exists — skipping creation
 )
 
-REM ── Step 3: activate ────────────────────────────────────────────
+REM ── Шаг 3: Активация ────────────────────────────────────────────
 call venv\Scripts\activate.bat
 echo Venv activated: %VIRTUAL_ENV%
 
-REM ── Step 4: upgrade pip ─────────────────────────────────────────
+REM ── Шаг 4: Обновление pip ────────────────────────────────────────
 echo Upgrading pip...
 python -m pip install --upgrade pip
 
-REM ── Step 5: install torch with CUDA 11.8 ────────────────────────
+REM ── Шаг 5: Установка Torch (CUDA 11.8) ──────────────────────────
 echo.
 echo Installing PyTorch with CUDA 11.8 support...
-echo (this is a large download ~2GB, please wait)
-echo NOTE: version is not pinned — pip will pick the correct build
-echo       for your Python version automatically from the CUDA index
 pip install torch --index-url https://download.pytorch.org/whl/cu118
 
-REM ── Step 6: install all other packages ──────────────────────────
+REM ── Шаг 6: Остальные пакеты ──────────────────────────────────────
 echo.
 echo Installing remaining packages...
 pip install -r requirements_gpu.txt
 
-REM ── Step 7: verify CUDA is visible ──────────────────────────────
+REM ── Шаг 7: Проверка ──────────────────────────────────────────────
 echo.
 echo Verifying CUDA and torch installation...
 python -c "import torch; print('Torch version :', torch.__version__); print('CUDA available:', torch.cuda.is_available()); print('GPU           :', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NOT FOUND')"
@@ -45,7 +49,5 @@ python -c "import torch; print('Torch version :', torch.__version__); print('CUD
 echo.
 echo ================================================================
 echo  Setup complete.
-echo  If CUDA available = False, install CUDA 11.8 from:
-echo  https://developer.nvidia.com/cuda-11-8-0-download-archive
 echo ================================================================
 pause
