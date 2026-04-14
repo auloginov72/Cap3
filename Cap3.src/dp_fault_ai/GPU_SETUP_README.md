@@ -27,11 +27,19 @@ During install:
 - ✅ Check **"Add Python to PATH"**
 - ✅ Check **"Install for all users"** (optional but recommended)
 
-Verify in a new Command Prompt:
+Verify in a new Command Prompt using the `py` launcher
+(more reliable than `python` which may point to an older system version):
 ```
-python --version
+py -3 --version
 ```
 Expected: `Python 3.13.x`
+
+If you have multiple Python versions installed and want to confirm which
+one will be used for the venv:
+```
+py -3 -c "import sys; print(sys.executable)"
+```
+This prints the full path to the Python 3 executable that Setup_gpu.bat will use.
 
 ---
 
