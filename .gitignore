@@ -1,3 +1,5 @@
+dp_training_data.json
+dp_phi3_adapter
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
