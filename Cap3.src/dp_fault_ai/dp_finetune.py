@@ -265,9 +265,9 @@ trainer = SFTTrainer(
     train_dataset      = dataset,
     args               = training_args,
     tokenizer          = tokenizer,
-    dataset_text_field = "text",
-    max_seq_length     = MAX_SEQ_LENGTH,
-    packing            = False,
+#    dataset_text_field = "text",
+#    max_seq_length     = MAX_SEQ_LENGTH,
+#    packing            = False,
     callbacks          = [StepLogger()],
 )
 
